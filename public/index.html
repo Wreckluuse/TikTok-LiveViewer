@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"
+        integrity="sha384-/KNQL8Nu5gCHLqwqfQjA689Hhoqgi2S84SNUxC3roTe4EhJ9AfLkp8QiQcU8AMzI"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf-8">
+        const socket = io()
+    </script>
+    <script src="index.js" defer></script>
+    <script src="timer.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<main>
+    <div class="contentGrid">
+        <div class="contentGridItem" id="navBar">
+            <div id="navControls">
+                <div class="selectExtensions">
+                    <div id="selectTimer" class="fadeIn button1">Timer</div>
+                    <div id="selectChatbox" class="fadeIn button2">Chat</div>
+                    <div id="selectEventHistory" class="fadeIn button3">Recent Events</div>
+                </div>
+                <div id="selectExtensionsButton" class="uiAnimation">
+                    <div class="selectButtonIcon" id="iconP1"></div>
+                    <div class="selectButtonIcon" id="iconP2"></div>
+                    <div class="selectButtonIcon" id="iconP3"></div>
+                </div>
+                <div id="settingsButton" class="uiAnimation"></div>
+                <div id="settingsPanel" class="settingsBox uiAnimation">
+                    <label class="settingFade" id="uNameInput">Connect to a Channel!</label><br><br>
+                    <input class="settingFade" type="text" id="handleInput"
+                        placeholder="Type your handle without the '@'">
+                    <input class="settingFade" type="button" id="newHandleToServer" value="Update">
+                    <br>
+                    <div class="settingFade" id="currentChannel">Currently Conected: <br> None</div>
+                    <input class="settingFade" type="button" id="lightDark" value="Disconnect">
+                </div>
+            </div>
+
+        </div>
+        <div class="contentGridItem" id="content">
+            <div class="contentContainer">
+                <div id="timerContainer">
+                    <div id="display" class="init">
+                        <div id="time" style="visibility: hidden;">
+                        </div>
+                    </div>
+                    <div class="buttonGrid">
+                        <div id="timerControls" class="gridItem">
+                            <input type="button" id="startButton" value="Start" onclick="startClock()">
+                            <input type="button" id="pauseButton" value="Pause" onclick="stop()">
+                            <input type="number" id="initTime" placeholder="Starting Time (Hours)">
+                        </div>
+                        <div class="gridItem">
+                            <input type="button"  id="add1m" class="addTimeButtons" value="+1m" onclick="plus1m()">
+                            <input type="button"  id="add1h" class="addTimeButtons" value="+1h" onclick="plus1h()">
+                        <br>
+                        <input  type="text" id="manualCustom" placeholder="Custom Amount (Mins)"><br>
+                        <input  type="button" id="manualSub" value="Add Minutes"
+                            onclick="addCustomTime()"><br>
+                        </div>
+                        <div class="gridItem">
+                            <label  id="colorLabel">Change Color:</label><br>
+                            <input  type="color" id="colorPicker"><br>
+                        </div>
+                        <div class="gridItem">
+                            <label  >Coins Per Second:</label><br>
+                            <input  type="number" min="1" max="100" id="cps" value="3"><br>
+                            <input  type="range" min="1" max="100" value="3" id="coinModifier">
+                        </div>
+                    </div>
+                </div>
+                <div class="contentSubGridContainer contentItem" id="subContainer">
+                    <div class="chat_event_header">Chat</div>
+                    <ul id="chatMessages">
+
+                    </ul>
+                </div>
+                <div id="eventBox">
+                    <div class="chat_event_header">Event History</div>
+                    <ul id="eventMessages">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+</html>

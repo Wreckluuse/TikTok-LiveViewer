@@ -1,0 +1,544 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500&family=Comfortaa&family=Kanit&display=swap');
+
+main,
+body,
+html {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (min-width:1000px) {
+
+
+    .contentGrid {
+        display: grid;
+        height: 100vw;
+        width: 100vw;
+        grid-template-columns: 5% 95%;
+    }
+}
+
+@media (max-width:999px) {
+    .contentGrid {
+        display: grid;
+        height: 100vw;
+        width: 100vw;
+        grid-template-columns: 10% 90%;
+    }
+}
+
+
+#currentChannel {
+    color: #232324;
+    font-family: 'Comfortaa', cursive;
+    font-size: 15px;
+    font-weight: 600;
+    float: left;
+}
+
+/* CSS FOR NAV BAR CONTROLS / ANIMATIONS */
+#navControls {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+}
+
+#selectExtensionsButton {
+    display: grid;
+    grid-template-rows: 3px 3px 7px;
+    grid-gap: 7px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 10px;
+    transition-property: transform;
+    transition-timing-function: ease-in-out;
+    transition-duration: 1s;
+}
+
+.selectButtonIcon {
+    width: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #232324;
+    border-width: 2px;
+    border-color: #232324;
+    border-style: solid;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+
+.newState {
+    transform: translateY(35px);
+    transition-property: transform;
+    transition-timing-function: ease-in-out;
+    transition-duration: 1s;
+}
+
+#navBar {
+    display: grid;
+    grid-template-rows: 0px 30px 30px 50px;
+    grid-gap: 20px;
+    background-color: #23232478;
+}
+
+#settingsButton {
+    background-image: url('media/settings.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 40px;
+    width: 40%;
+    transition-property: transform;
+    transition-timing-function: ease-in-out;
+    transition-duration: 1s;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.rotateButton {
+    transform: rotate(180deg);
+    transition-duration: 1s;
+}
+
+.settingsBox {
+    visibility: hidden;
+    height: 100px;
+    width: 1px;
+    background-color: #979798;
+    transition-duration: 1s;
+    transition-property: width transform;
+    z-index: 1;
+    border-radius: 10px;
+}
+
+.settingsBoxOut {
+    padding-left: 30px;
+    padding-right: 10px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    visibility: visible;
+    background-color: #979798;
+    width: 300px;
+    opacity: 1;
+    transition-property: width transform;
+    transition-duration: 1s;
+    transform: translateX(75px);
+    position: fixed;
+    z-index: 1;
+}
+
+.settingFade {
+    visibility: hidden;
+    opacity: 0;
+    font-family: 'comfortaa', cursive;
+    transition-property: opacity;
+    transition-duration: 1s;
+    transition-delay: 1s;
+    font-weight: 500;
+    transition-timing-function: ease-in-out;
+}
+
+.settingsVisible {
+    visibility: visible;
+    font-weight: 500;
+    transition-delay: 1s;
+    transition-property: opacity;
+    transition-duration: 1s;
+    transition-timing-function: ease-in-out;
+    font-size: 1em;
+    opacity: 1;
+}
+
+#handleInput {
+    height: 20px;
+    width: 70%;
+    font-size: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    border-width: 0;
+}
+
+#uNameInput {
+    font-size: 25px;
+    font-weight: 400;
+}
+
+#newHandleToServer {
+    background-color: #232324;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    color: #979798;
+    border-radius: 10px;
+    border-width: 0;
+}
+
+#lightDark {
+    background-color: #232324;
+    color: #979798;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    color: #979798;
+    border-radius: 10px;
+    border-width: 0;
+    float: right;
+}
+
+.fadeIn {
+    visibility: hidden;
+    height: 0px;
+    width: 100%;
+    display: grid;
+    grid-template-rows: 10px 10px 10px;
+    grid-gap: 2px;
+    opacity: 0;
+    transition-property: opacity height;
+    transition-timing-function: ease-in-out;
+    text-align: center;
+    font-family: 'Comfortaa', cursive;
+    transition-duration: 0.5s;
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 2px;
+    font-weight: 600;
+}
+
+.buttonsVisible {
+    visibility: visible;
+    height: 35px;
+    width: 100%;
+    font-size: 1em;
+    font-family: 'Comfortaa', cursive;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    color: #232324;
+    opacity: 1;
+    transition-property: opacity height;
+    transition-timing-function: ease-in-out;
+    transition-delay: 0.5s;
+    font-weight: 600;
+}
+
+.button1 {
+    transition-duration: 0.1s;
+}
+
+.button2 {
+    transition-duration: 0.2s;
+}
+
+.button3 {
+    transition-duration: 0.3s;
+}
+
+#content {
+    background-color: #232324;
+}
+
+/* CSS FOR GENERAL CONTENT */
+
+.innerGrid {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto;
+}
+
+
+/* CSS FOR TIMER */
+
+
+#display {
+    display: flex;
+    height: 92%;
+    width: 100%;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2%;
+    display: flex;
+    color: beige;
+    font-size: 12%;
+    font-family: 'Chakra Petch', sans-serif;
+    box-shadow: 0 3px 5px #979798;
+}
+
+.setup {
+    color: beige;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+}
+#manualCustom {
+    background-color: #232324;
+    border-radius: 10px;
+    color: beige;
+    font-family: 'comfortaa', cursive;
+    width: 90%;
+    margin-bottom: 3%;
+    font-size: 1vh;
+}
+
+#manualSub {
+    font-family: 'comfortaa', cursive;
+    background-color: #232324;
+    border-radius: 10px;
+    color: beige;
+    width: 95%;
+    font-size: 1.5vh;
+}
+
+#colorLabel {
+    color: beige;
+    text-align: center;
+    width: 90%;
+}
+
+#sliderLabel {
+    color: beige;
+    text-align: center;
+    width: 90%;
+}
+
+#cps {
+    background-color: #232324;
+    border-radius: 10px;
+    border-color: white;
+    color: beige;
+    text-align: center;
+    width: 90%;
+}
+
+#coinModifier {
+    outline: none;
+    width: 90%;
+}
+
+#colorLabel {
+    margin-top: 12%;
+}
+#colorPicker {
+    margin-top: 10%;
+    background-color: #232324;
+    border-radius: 10px;
+    width: 90%;
+}
+
+.addTimeButtons {
+    width: 45%;
+    font-size: 1.2vh;
+    margin-bottom: 2%;
+    font-family: 'Comfortaa', cursive;
+    background-color: #232324;
+    border-radius: 10px;
+    color: beige;
+}
+
+#initTime {
+    background-color: #3b3b3d;
+    color: beige;
+    border-radius: 10px;
+    margin-top: 3%;
+    width: 88%;
+}
+
+#timerControls {
+    font-family: 'Comfortaa', cursive;
+
+}
+
+#time {
+    display: flex;
+    color: beige;
+    font-size: 12vh;
+    font-family: 'Chakra Petch', sans-serif;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+#startButton {
+    color: beige;
+    background-color: #232324;
+    padding: 5px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: limegreen;
+    border-radius: 10px;
+    width: 45%;
+    font-family: 'Comfortaa', cursive;
+    text-align: center;    
+}
+
+#pauseButton {
+    color: beige;
+    background-color: #232324;
+    padding: 5px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: red;
+    border-radius: 10px;
+    width: 45%;
+    text-align: center;
+    font-family: 'Comfortaa', cursive;
+}
+
+#timerContainer {
+    width: 95%;
+    max-height: 50%;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    justify-content: center;
+    grid-row-start: 2;
+    grid-row-end: 2;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    margin-top: 2vh;
+}
+
+.buttonGrid {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 30% 20% 20% 20%;
+    grid-gap: 4%;
+    width: 90%;
+    border-radius: 10px;
+
+
+}
+
+.gridItem {
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 2px;
+    border-width: 2px;
+    border-radius: 10px;
+    background-color: #232324;
+    color: beige;
+    height: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-family: 'Comfortaa', cursive;
+    font-size: 1.5vh;
+    box-shadow: 0 3px 5px  #979798;
+}   
+
+/* CSS FOR CONTENT GRID */
+
+.contentContainer {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-rows: 70vh 30vh;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+}
+
+.contentSubGridContainer {
+    margin-top: 2vh;
+    max-height: 96%;
+    width: 95%;
+    grid-column-start: 3;
+    grid-column-end: 5;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    border-radius: 10px;
+    background-color: #232324;
+    margin-left: auto;
+    margin-right: auto;
+
+    overflow: hidden;
+    box-shadow: 0 3px 5px  #979798;
+
+}
+
+
+.chat_event_header {
+    width: 100%;
+    font-family: 'Comfortaa', cursive;
+    font-size: 3vh;
+    background-color: #979798;
+    color: #232324;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    max-height: 50px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    justify-content: center;
+    text-align: center;
+}
+
+/* CSS FOR CHAT BOX */
+
+#chatMessages img {
+    border-radius: 5px;
+}
+
+#chatMessages {
+    list-style-type: none;
+    margin: 0;
+    margin-left: 1%;
+    margin-bottom: 1%;
+    padding: 0;
+    font-size: 1em;
+    color: white;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    max-height: 95%;
+    font-family: Arial, Helvetica, sans-serif;
+    text-shadow: -1px 1px  black, -1px 1px  black, -1px 1px  black, -1px 1px  black;
+}
+
+
+
+li {
+    margin: 10px 0;
+    width:90%;
+    word-wrap: break-word;
+}
+
+/* CSS FOR EVENT BOX*/
+
+#eventBox {
+    max-height: 100%;
+    width: 95%;
+    border-radius: 10px;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 1;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2vh;
+    box-shadow: 0 3px 5px  #979798;
+    overflow-y: hidden;
+
+}
+
+#eventMessages {
+    list-style-type: none;
+    margin: 0;
+    margin-left: 2%;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    text-shadow: -1px 1px  black, -1px 1px  black, -1px 1px  black, -1px 1px  black;
+    font-size: 1.5em;
+    color: white;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    max-height: 95%;
+
+}

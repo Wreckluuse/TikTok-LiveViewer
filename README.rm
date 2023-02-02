@@ -1,0 +1,16 @@
+- Set up buttons under timer
+
+- finish events
+
+- pop out widgets into own window
+
+- uname in chat color to match role
+
+- need to add to data payload and figure out where to determine colors (dict stored on client side?)
+
+- add viewer count
+
+- figure out more features
+
+
+
