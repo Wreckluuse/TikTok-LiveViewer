@@ -1,14 +1,11 @@
-- Set up buttons under timer
-
-- finish events
 
 - pop out widgets into own window
 
-- uname in chat color to match role
-
-- need to add to data payload and figure out where to determine colors (dict stored on client side?)
-
 - add viewer count
+
+- toggleable green screen background on chatbox
+
+- refine event window, separate and color coordinate fin/free events
 
 - figure out more features
 

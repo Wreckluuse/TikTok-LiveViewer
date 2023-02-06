@@ -27,7 +27,15 @@
                     <div class="selectButtonIcon" id="iconP2"></div>
                     <div class="selectButtonIcon" id="iconP3"></div>
                 </div>
-                <div id="settingsButton" class="uiAnimation"></div>
+                <div class="parent uiAnimation">
+                    <div class="gear" id="settingsButton">
+                        <div class="center"></div>
+                        <div class="tooth"></div>
+                        <div class="tooth"></div>
+                        <div class="tooth"></div>
+                        <div class="tooth"></div>
+                    </div>
+                </div>
                 <div id="settingsPanel" class="settingsBox uiAnimation">
                     <label class="settingFade" id="uNameInput">Connect to a Channel!</label><br><br>
                     <input class="settingFade" type="text" id="handleInput"
@@ -54,31 +62,37 @@
                             <input type="number" id="initTime" placeholder="Starting Time (Hours)">
                         </div>
                         <div class="gridItem">
-                            <input type="button"  id="add1m" class="addTimeButtons" value="+1m" onclick="plus1m()">
-                            <input type="button"  id="add1h" class="addTimeButtons" value="+1h" onclick="plus1h()">
-                        <br>
-                        <input  type="text" id="manualCustom" placeholder="Custom Amount (Mins)"><br>
-                        <input  type="button" id="manualSub" value="Add Minutes"
-                            onclick="addCustomTime()"><br>
+                            <input type="button" id="add1m" class="addTimeButtons" value="+1m" onclick="plus1m()">
+                            <input type="button" id="add1h" class="addTimeButtons" value="+1h" onclick="plus1h()">
+                            <br>
+                            <input type="text" id="manualCustom" placeholder="Custom Amount (Mins)"><br>
+                            <input type="button" id="manualSub" value="Add Minutes" onclick="addCustomTime()"><br>
                         </div>
                         <div class="gridItem">
-                            <label  id="colorLabel">Change Color:</label><br>
-                            <input  type="color" id="colorPicker"><br>
+                            <label id="colorLabel">Change Color:</label><br>
+                            <input type="color" id="colorPicker"><br>
                         </div>
                         <div class="gridItem">
-                            <label  >Coins Per Second:</label><br>
-                            <input  type="number" min="1" max="100" id="cps" value="3"><br>
-                            <input  type="range" min="1" max="100" value="3" id="coinModifier">
+                            <label>Coins Per Second:</label><br>
+                            <input type="number" min="1" max="100" id="cps" value="3"><br>
+                            <input type="range" min="1" max="100" value="3" id="coinModifier">
                         </div>
                     </div>
                 </div>
                 <div class="contentSubGridContainer contentItem" id="subContainer">
-                    <div class="chat_event_header">Chat</div>
+                    <p id="viewerCount"></p>
+                    <div class="chat_event_header">
+                        Chat
+                    </div>
                     <ul id="chatMessages">
 
                     </ul>
                 </div>
                 <div id="eventBox">
+                    <div class="statsGrid">
+                        <p class="statsGridItem" id="likeCount"></p>
+                        <p class="statsGridItem" id="followCount"></p>
+                    </div>
                     <div class="chat_event_header">Event History</div>
                     <ul id="eventMessages">
 

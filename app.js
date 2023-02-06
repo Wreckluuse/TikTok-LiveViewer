@@ -1,4 +1,5 @@
 const express = require('express');
+const { stat } = require('fs');
 const app = express();
 const http = require('http');
 const { Server } = require('socket.io');
@@ -16,19 +17,27 @@ let connectedFlag = false;
 //Socket Routing
 io.on('connection', (socket) => {
     socket.on('updateUName', (data) => {
-        newConnection(data, function (cbValue) {
+        newConnection(data, function (cbValue, cbStats) {
             if (cbValue.type === 'notSet') {
                 return
             } else {
 
                 let payload = JSON.stringify(cbValue);
+                let stats = JSON.stringify(cbStats);
+                
+                socket.emit('updateStats', stats)
 
-                if (cbValue.type === "incomingChat") {
+                if (cbValue.type === "updateViewerCount") {
+                    socket.emit('updateViewerCount', payload)
+                } else if (cbValue.type === "incomingChat") {
                     socket.emit('newChat', payload)
                 } else {
                     if (cbValue.type === 'newSub') socket.emit('subToTimer', payload)
                     socket.emit('eventToClient', payload)
                 }
+
+               
+
             }
         })
         socket.emit('liveConnectSuccess', data)
@@ -37,8 +46,14 @@ io.on('connection', (socket) => {
 
 function newConnection(username, callback) {
     let cbValue = { type: 'notSet' };
+    let cbStats = {
+        type: 'updateStats'
+    }
 
-    var tiktokLiveConnection = new WebcastPushConnection(username, { enableExtendedGiftInfo: true });
+    var tiktokLiveConnection = new WebcastPushConnection(username, {
+        enableExtendedGiftInfo: true,
+        fetchRoomInfoOnConnect: true
+    });
 
     tiktokLiveConnection.connect().then(state => {
         console.info(`Connected to room (ID): ${state.roomId}`)
@@ -49,6 +64,18 @@ function newConnection(username, callback) {
     })
 
     // TIKTOK EVENTS GO HERE
+
+    tiktokLiveConnection.on('roomUser', data => {
+        cbValue = {
+            type: 'updateViewerCount',
+            viewerCount: data.viewerCount
+        }
+        callback(cbValue);
+        cbValue = {
+            type: 'notSet'
+        }
+    })
+
     tiktokLiveConnection.on('error', err => {
         console.log('Error: ', err)
     })
@@ -64,10 +91,8 @@ function newConnection(username, callback) {
 
     tiktokLiveConnection.on('gift', data => {
         if (data.giftType === 1 && !data.repeatEnd) {
-            console.log(`${data.uniqueId} has sent gift ${data.giftName} x${data.repeatCount}`);
         } else {
             console.log(`Recieved ${data.repeatCount} ${data.giftName}\'s from ${data.uniqueId}`)
-            console.log(data.diamondCount)
             let coins = Number(data.diamondCount) * 2;
             cbValue = {
                 type: 'coinDonation',
@@ -113,6 +138,17 @@ function newConnection(username, callback) {
         }
     })
 
+    tiktokLiveConnection.on('like', (data) => {
+        cbValue = {
+            type: 'like',
+            totalLikes: data.totalLikeCount
+        }
+        callback(cbValue)
+        cbValue = {
+            type: 'notSet'
+        }
+    })
+
     tiktokLiveConnection.on('share', (data) => {
         cbValue = {
             type: 'share',
@@ -140,6 +176,14 @@ function newConnection(username, callback) {
         };
     })
 
+    tiktokLiveConnection.getRoomInfo().then(roomInfo => {
+        cbStats = {
+            type: "updateInfo",
+            newFollows: roomInfo.stats.follow_count,
+            newLikes: roomInfo.stats.like_count
+        }
+        callback(cbStats)
+    })
 
 }
 

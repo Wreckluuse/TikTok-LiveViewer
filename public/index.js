@@ -66,13 +66,19 @@ submitNewUser.addEventListener('click', () => {
     unameBox.value = ""
 })
 
+function updateViewCount(input) {
+    let viewerCount = JSON.parse(input).viewerCount;
+    let viewBox = document.getElementById('viewerCount');
+    viewBox.innerHTML = `🔴 ${viewerCount}`
+
+}
+
 function pushChat(input) {
-    chatMessages.scrollTop = chatMessages.scrollHeight - chatMessages.clientHeight;
     let chatData = JSON.parse(input);
     let newMsg = document.createElement('li');
     let newPfp = document.createElement('img');
     let displayName = document.createElement('p');
-    let nameColor = colorName(chatData.roles)
+    let nameColor = colorName(chatData.roles);
     newPfp.src = chatData.pfp;
     newPfp.style.width = '14px';
     newPfp.style.height = '14px';
@@ -82,10 +88,10 @@ function pushChat(input) {
     displayName.prepend(newPfp)
     newMsg.append(displayName, document.createTextNode(': ' + chatData.content))
     chatMessages.appendChild(newMsg)
+    chatMessages.scrollTop = chatMessages.scrollHeight - chatMessages.clientHeight;
 }
 
 function updateEventList(input) {
-    eventBox.scrollTop = eventBox.scrollHeight - eventBox.clientHeight;
     let payload = JSON.parse(input);
     let name = payload.uName;
     let event = payload.type;
@@ -116,6 +122,21 @@ function updateEventList(input) {
     newEvent.append(displayName, document.createTextNode(eventList))
     eventBox.appendChild(newEvent)
 
+    eventBox.scrollTop = eventBox.scrollHeight - eventBox.clientHeight;
+}
+
+function updateStats(input) {
+    let likeBox = document.getElementById('likeCount')
+    let followBox = document.getElementById('followCount')
+
+    let likeCount = JSON.parse(input).newLikes;
+    let followCount = JSON.parse(input).newFollows;
+
+    likeBox.innerHTML = `👍:${likeCount}`;
+    followBox.innerHTML = `👤${followCount}`;
+
+    likeBox.style.width = 'fit-content';
+    followBox.style.width = 'fit-content';
 }
 
 function colorName(userRoles) {
@@ -142,4 +163,12 @@ socket.on('eventToClient', (data) => {
 
 socket.on('newChat', (data) => {
     pushChat(data);
+})
+
+socket.on('updateViewerCount', (data) => {
+    updateViewCount(data);
+})
+
+socket.on('updateStats', (data) => {
+    updateStats(data);
 })
