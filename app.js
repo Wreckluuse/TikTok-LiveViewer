@@ -17,38 +17,24 @@ let connectedFlag = false;
 //Socket Routing
 io.on('connection', (socket) => {
     socket.on('updateUName', (data) => {
-        newConnection(data, function (cbValue, cbStats) {
-            if (cbValue.type === 'notSet') {
-                return
+        newConnection(data, function (cbValue) {
+
+            let payload = JSON.stringify(cbValue);
+
+            if (cbValue.type === "updateViewerCount") {
+                socket.emit('updateViewerCount', payload)
+            } else if (cbValue.type === "incomingChat") {
+                socket.emit('newChat', payload)
             } else {
-
-                let payload = JSON.stringify(cbValue);
-                let stats = JSON.stringify(cbStats);
-                
-                socket.emit('updateStats', stats)
-
-                if (cbValue.type === "updateViewerCount") {
-                    socket.emit('updateViewerCount', payload)
-                } else if (cbValue.type === "incomingChat") {
-                    socket.emit('newChat', payload)
-                } else {
-                    if (cbValue.type === 'newSub') socket.emit('subToTimer', payload)
-                    socket.emit('eventToClient', payload)
-                }
-
-               
-
+                if (cbValue.type === 'newSub') socket.emit('subToTimer', payload)
+                socket.emit('eventToClient', payload)
             }
         })
-        socket.emit('liveConnectSuccess', data)
+        socket.emit('liveConnectSuccess', data);
     })
 })
 
 function newConnection(username, callback) {
-    let cbValue = { type: 'notSet' };
-    let cbStats = {
-        type: 'updateStats'
-    }
 
     var tiktokLiveConnection = new WebcastPushConnection(username, {
         enableExtendedGiftInfo: true,
@@ -63,17 +49,16 @@ function newConnection(username, callback) {
         console.error('Failed to connect', err)
     })
 
+
+
     // TIKTOK EVENTS GO HERE
 
     tiktokLiveConnection.on('roomUser', data => {
-        cbValue = {
+        let cbValue = {
             type: 'updateViewerCount',
             viewerCount: data.viewerCount
         }
         callback(cbValue);
-        cbValue = {
-            type: 'notSet'
-        }
     })
 
     tiktokLiveConnection.on('error', err => {
@@ -93,8 +78,8 @@ function newConnection(username, callback) {
         if (data.giftType === 1 && !data.repeatEnd) {
         } else {
             console.log(`Recieved ${data.repeatCount} ${data.giftName}\'s from ${data.uniqueId}`)
-            let coins = Number(data.diamondCount) * 2;
-            cbValue = {
+            let coins = Number(data.diamondCount);
+            let cbValue = {
                 type: 'coinDonation',
                 value: coins,
                 uName: data.uniqueId,
@@ -104,14 +89,11 @@ function newConnection(username, callback) {
                 amount: data.repeatCount
             };
             callback(cbValue)
-            cbValue = {
-                type: 'notSet'
-            };
         }
     })
 
     tiktokLiveConnection.on('subscribe', (data) => {
-        cbValue = {
+        let cbValue = {
             type: 'newSub',
             uName: data.uniqueId,
             roles: [data.isModerator, data.isSubscriber, data.rollowRole],
@@ -120,50 +102,52 @@ function newConnection(username, callback) {
 
         };
         callback(cbValue);
-        cbValue = {
-            type: 'notSet'
-        };
     })
 
     tiktokLiveConnection.on('follow', (data) => {
-        cbValue = {
-            type: 'follow',
-            uName: data.uniqueId,
-            roles: [data.isModerator, data.isSubscriber, data.rollowRole],
-            pfp: data.userDetails.profilePictureUrls[2],
-        }
-        callback(cbValue)
-        cbValue = {
-            type: 'notSet'
-        }
+
+
+        tiktokLiveConnection.getRoomInfo().then(roomInfo => {
+
+            let cbValue = {
+                type: 'follow',
+                uName: data.uniqueId,
+                roles: [data.isModerator, data.isSubscriber, data.rollowRole],
+                pfp: data.userDetails.profilePictureUrls[2],
+                newFollows: roomInfo.stats.follow_count,
+            }
+
+            callback(cbValue)
+
+        })
+
     })
 
     tiktokLiveConnection.on('like', (data) => {
-        cbValue = {
-            type: 'like',
-            totalLikes: data.totalLikeCount
+
+        let cbValue = {
+            type: "updateLikes",
+            newLikes: data.totalLikeCount
         }
+
         callback(cbValue)
-        cbValue = {
-            type: 'notSet'
-        }
+
     })
 
     tiktokLiveConnection.on('share', (data) => {
-        cbValue = {
+        let cbValue = {
             type: 'share',
             uName: data.uniqueId,
             roles: [data.isModerator, data.isSubscriber, data.rollowRole],
             pfp: data.userDetails.profilePictureUrls[2]
         }
+
         callback(cbValue)
-        cbValue = {
-            type: 'notSet'
-        }
+
     })
 
     tiktokLiveConnection.on('chat', data => {
-        cbValue = {
+        let cbValue = {
             type: 'incomingChat',
             uName: data.uniqueId,
             pfp: data.userDetails.profilePictureUrls[2],
@@ -171,21 +155,10 @@ function newConnection(username, callback) {
             content: data.comment
         }
         callback(cbValue);
-        cbValue = {
-            type: 'notSet'
-        };
     })
-
-    tiktokLiveConnection.getRoomInfo().then(roomInfo => {
-        cbStats = {
-            type: "updateInfo",
-            newFollows: roomInfo.stats.follow_count,
-            newLikes: roomInfo.stats.like_count
-        }
-        callback(cbStats)
-    })
-
 }
+
+
 
 // RUNNING THE SERVER
 
