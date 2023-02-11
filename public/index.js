@@ -4,11 +4,11 @@ let options = document.getElementsByClassName('settingFade')
 let selectExtensionButton = document.getElementById('selectExtensionsButton');
 let optionsButton = document.getElementById('settingsButton');
 let settingsPanel = document.getElementById('settingsPanel');
-//let chat = document.getElementById('chatBox')
 let chatMessages = document.getElementById('chatMessages')
 let eventBox = document.getElementById('eventMessages');
 let submitNewUser = document.getElementById('newHandleToServer');
 let unameBox = document.getElementById('handleInput');
+let chatGreenButton = document.getElementById('chatColor');
 
 let roleColors = {
     "baseViewer": "#ffb88f",
@@ -66,6 +66,30 @@ submitNewUser.addEventListener('click', () => {
     unameBox.value = ""
 })
 
+unameBox.onkeydown = function (e) {
+    if (e.key == "Enter") {
+        let newName = unameBox.value;
+        if (newName == null || newName == "") {
+            unameBox.placeholder = "Please add a username and try again."
+            unameBox.value = ""
+            return
+        }
+        socket.emit('updateUName', newName);
+        unameBox.value = ""
+        unameBox.placeholder = "Type your handle without the '@'."
+        unameBox.value = ""
+    }
+}
+
+chatGreenButton.addEventListener('click', () => {
+
+    document.getElementById('subContainer').classList.toggle('toggleColor');
+    if (document.getElementById('subContainer').classList.contains('toggleColor')) {
+        chatGreenButton.value = 'Toggle Green: On'
+    } else chatGreenButton.value = 'Toggle Green: Off'
+
+})
+
 function updateViewCount(input) {
     let viewerCount = JSON.parse(input).viewerCount;
     let viewBox = document.getElementById('viewerCount');
@@ -82,7 +106,7 @@ function pushChat(input) {
     newPfp.src = chatData.pfp;
     newPfp.style.width = '14px';
     newPfp.style.height = '14px';
-    displayName.style.color = roleColors[nameColor]; 
+    displayName.style.color = roleColors[nameColor];
     displayName.innerHTML = " " + chatData.uName
     displayName.style.display = "inline"
     displayName.prepend(newPfp)
@@ -94,6 +118,7 @@ function pushChat(input) {
 function updateEventList(input) {
     let payload = JSON.parse(input);
     let name = payload.uName;
+    let uRoles = payload.roles;
     let event = payload.type;
     let eventList = "";
 
@@ -104,6 +129,7 @@ function updateEventList(input) {
             break;
         case "follow":
             eventList += ` Has just followed the stream!`
+            updateStats(input);
             break;
         case "newSub":
             eventList += ` Has just subscribed to the stream! [Current Streak: ${payload.subStreak}]`;
@@ -111,32 +137,34 @@ function updateEventList(input) {
         case "coinDonation":
             eventList += ` Just gifted ${payload.giftName} x${payload.amount}! (${payload.value} coins)`
             break;
-
     }
 
-    let newEvent = document.createElement('li');
-    let displayName = document.createElement('p')
-    displayName.style.color = roleColors[colorName(payload.roles)];
-    displayName.style.display = "inline";
-    displayName.innerHTML = " " + name;
-    newEvent.append(displayName, document.createTextNode(eventList))
-    eventBox.appendChild(newEvent)
+    if (payload.type === "updateLikes") {
+        updateStats(input);
+    } else {
 
-    eventBox.scrollTop = eventBox.scrollHeight - eventBox.clientHeight;
+        let newEvent = document.createElement('li');
+        let displayName = document.createElement('p')
+        displayName.style.color = roleColors[colorName(uRoles)];
+        displayName.style.display = "inline";
+        displayName.innerHTML = " " + name;
+        newEvent.append(displayName, document.createTextNode(eventList))
+        eventBox.appendChild(newEvent)
+
+        eventBox.scrollTop = eventBox.scrollHeight - eventBox.clientHeight;
+    }
 }
 
 function updateStats(input) {
-    let likeBox = document.getElementById('likeCount')
-    let followBox = document.getElementById('followCount')
-
-    let likeCount = JSON.parse(input).newLikes;
-    let followCount = JSON.parse(input).newFollows;
-
-    likeBox.innerHTML = `👍:${likeCount}`;
-    followBox.innerHTML = `👤${followCount}`;
-
-    likeBox.style.width = 'fit-content';
-    followBox.style.width = 'fit-content';
+    let stats = JSON.parse(input)
+    let followCounter = document.getElementById('followCount');
+    let likesCounter = document.getElementById('likeCount');
+    if (stats.type === "follow") {
+        followCounter.innerHTML = `👤 ${stats.newFollows}`
+    }
+    if (stats.type === "updateLikes") {
+        likesCounter.innerHTML = `👍 ${stats.newLikes}`
+    }
 }
 
 function colorName(userRoles) {
@@ -167,8 +195,4 @@ socket.on('newChat', (data) => {
 
 socket.on('updateViewerCount', (data) => {
     updateViewCount(data);
-})
-
-socket.on('updateStats', (data) => {
-    updateStats(data);
 })

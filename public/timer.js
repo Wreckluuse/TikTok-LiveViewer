@@ -61,7 +61,7 @@ function startClock() {
             if (document.getElementById('initTime').value != "") {
                 clock.style.visibility = 'visible'
                 document.getElementById('initTime').style.display = 'none';
-                document.getElementById('display').style.backgroundColor = 'limegreen';
+                document.getElementById('display').style.backgroundColor = '#00ff37';
                 document.getElementById('timerControls').style.height = "fit-content";
                 document.getElementById('timerControls').style.paddingBottom = "10px";
                 document.getElementById('timerControls').style.width = "60%";
