@@ -232,7 +232,7 @@ html {
     float: right;
 }
 
-#lightDark {
+#dcButton {
     font-size: 0.75em;
     height: 20%;
     width: 25%;
@@ -560,13 +560,16 @@ html {
     margin-left: 1%;
     margin-bottom: 1%;
     padding: 0;
-    font-size: 1em;
+    font-size: 1.3em;
     color: white;
     overflow-x: hidden;
     overflow-y: scroll;
     max-height: 95%;
     font-family: Arial, Helvetica, sans-serif;
-    text-shadow: -1px 1px black, -1px 1px black, -1px 1px black, -1px 1px black;
+	text-shadow: -1px 1px 0 #000,
+				  1px 1px 0 #000,
+				 1px -1px 0 #000,
+				-1px -1px 0 #000;
 }
 
 li {
@@ -629,7 +632,10 @@ li {
     margin-left: 2%;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
-    text-shadow: -1px 1px black, -1px 1px black, -1px 1px black, -1px 1px black;
+	text-shadow: -1px 1px 0 #000,
+				  1px 1px 0 #000,
+				 1px -1px 0 #000,
+				-1px -1px 0 #000;
     font-size: 1.5em;
     color: white;
     overflow-x: hidden;
@@ -659,6 +665,6 @@ li {
     box-shadow: inset 0 0 5px #9f9f9f;
     background-color: #22222f;
     height: 35%;
-    width: 80%;
+    width: 90%;
     padding: 5px;
 }

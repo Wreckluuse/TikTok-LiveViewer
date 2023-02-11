@@ -9,6 +9,7 @@ let eventBox = document.getElementById('eventMessages');
 let submitNewUser = document.getElementById('newHandleToServer');
 let unameBox = document.getElementById('handleInput');
 let chatGreenButton = document.getElementById('chatColor');
+let disconnectButton = document.getElementById('dcButton');
 
 let roleColors = {
     "baseViewer": "#ffb88f",
@@ -66,6 +67,10 @@ submitNewUser.addEventListener('click', () => {
     unameBox.value = ""
 })
 
+disconnectButton.addEventListener('click', () => {
+    location.reload();
+})
+
 unameBox.onkeydown = function (e) {
     if (e.key == "Enter") {
         let newName = unameBox.value;
@@ -93,7 +98,7 @@ chatGreenButton.addEventListener('click', () => {
 function updateViewCount(input) {
     let viewerCount = JSON.parse(input).viewerCount;
     let viewBox = document.getElementById('viewerCount');
-    viewBox.innerHTML = `🔴 ${viewerCount}`
+    viewBox.innerHTML = `🔴 ${viewerCount.toLocaleString('en-US')}`
 
 }
 
@@ -160,10 +165,10 @@ function updateStats(input) {
     let followCounter = document.getElementById('followCount');
     let likesCounter = document.getElementById('likeCount');
     if (stats.type === "follow") {
-        followCounter.innerHTML = `👤 ${stats.newFollows}`
+        followCounter.innerHTML = `👤 ${stats.newFollows.toLocaleString('en-US')}`
     }
     if (stats.type === "updateLikes") {
-        likesCounter.innerHTML = `👍 ${stats.newLikes}`
+        likesCounter.innerHTML = `👍 ${stats.newLikes.toLocaleString('en-US')}`
     }
 }
 
