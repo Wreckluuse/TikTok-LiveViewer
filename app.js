@@ -27,6 +27,7 @@ io.on('connection', (socket) => {
                 socket.emit('newChat', payload)
             } else {
                 if (cbValue.type === 'newSub') socket.emit('subToTimer', payload)
+                if (cbValue.type === 'follow') socket.emit('followToTimer', payload)
                 socket.emit('eventToClient', payload)
             }
 

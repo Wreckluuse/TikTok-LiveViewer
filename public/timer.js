@@ -54,6 +54,20 @@ sliderValue.oninput = function () {
     slider.value = this.value;
     modifier = slider.value;
 }
+let followSlider = document.getElementById('followModifier');
+let followValue = document.getElementById('spf');
+let followModifier = 3;
+followSlider.oninput = function () {
+    followValue.value = this.value;
+    followModifier = followSlider.value;
+}
+
+followValue.oninput = function () {
+    followSlider.value = this.value;
+    followModifier = followSlider.value;
+}
+
+
 function startClock() {
     if (state == 'stopped') {
         state = 'started';
@@ -185,4 +199,8 @@ socket.on('dataToTimer', (data) => {
 
 socket.on('subToTimer', () => {
     addCustomTime(5)
+})
+
+socket.on('followToTimer', () => {
+    addCustomTime(followModifier);
 })

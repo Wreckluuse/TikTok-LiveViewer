@@ -367,16 +367,18 @@ html {
     width: 90%;
 }
 
-#cps {
+.modifierSelect {
     background-color: #232324;
     border-radius: 10px;
+    border-style: solid;
     border-color: white;
     color: beige;
     text-align: center;
-    width: 90%;
+    width: 80%;
+    margin-top: 2px;
 }
 
-#coinModifier {
+.modifierSliders {
     outline: none;
     width: 90%;
 }
@@ -471,9 +473,8 @@ html {
     margin-right: auto;
     margin-top: 10px;
     display: grid;
-    grid-template-columns: 30% 20% 20% 20%;
-    grid-gap: 4%;
-    width: 90%;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    width: 100%;
     border-radius: 10px;
 
 
@@ -489,6 +490,7 @@ html {
     background-color: #232324;
     color: beige;
     height: 90%;
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
     margin-top: auto;
@@ -606,6 +608,9 @@ li {
 
 .toggleColor {
     background-color: #00ff37;
+}
+.toggleOutlines {
+    text-shadow: none;
 }
 /* CSS FOR EVENT BOX*/
 
