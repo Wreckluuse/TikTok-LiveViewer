@@ -50,7 +50,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'TikTokExpress'
+          app-name: 'TikTok-LiveViewer'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_56EE4A09A8BD4EBA8402E6E7248C0629 }}
           package: .
