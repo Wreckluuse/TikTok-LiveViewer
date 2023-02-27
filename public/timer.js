@@ -156,6 +156,19 @@ function addCustomTime(input = Number(manualInput.value)) {
     manualInput.value = '';
 }
 
+function addCustomSeconds(input) {
+    if (seconds + input >= 60) {
+        if (minutes + 1 >= 60) {
+            hours += 1;
+            minutes = 0;
+            seconds = 0;
+        } else {
+            minutes += 1;
+            seconds = (seconds + input) - 60;
+        }
+    }
+}
+
 function hookTime(hookInput) {
     //let hookMinutes = Math.floor(Math.floor(hookInput / modifier) / 60);
     hookSeconds = Math.round(hookInput / modifier)
@@ -181,7 +194,7 @@ function hookTime(hookInput) {
         } else {
             seconds += hookSeconds;
         }
-        
+
     }
 
 }
@@ -202,5 +215,5 @@ socket.on('subToTimer', () => {
 })
 
 socket.on('followToTimer', () => {
-    addCustomTime(followModifier);
+    addCustomSeconds(followModifier);
 })
