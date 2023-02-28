@@ -83,7 +83,7 @@ function newConnection(username, callback) {
         if (data.giftType === 1 && !data.repeatEnd) {
         } else {
             console.log(`Recieved ${data.repeatCount} ${data.giftName}\'s from ${data.uniqueId}`)
-            let coins = Number(data.diamondCount);
+            let coins = Number(data.diamondCount * data.repeatCount);
             let cbValue = {
                 type: 'coinDonation',
                 value: coins,
