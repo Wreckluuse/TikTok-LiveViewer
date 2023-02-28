@@ -164,8 +164,10 @@ function addCustomSeconds(input) {
             seconds = 0;
         } else {
             minutes += 1;
-            seconds = (seconds + input) - 60;
+            seconds = (input + seconds) - 60;
         }
+    } else {
+        seconds += input;
     }
 }
 
