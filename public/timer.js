@@ -207,9 +207,9 @@ manualInput.onkeydown = function (e) {
     }
 }
 
-socket.on('dataToTimer', (data) => {
+socket.on('eventToClient', (data) => {
     data = JSON.parse(data)
-    if (data.value >= modifier) hookTime(data.value)
+    if (data.type === "coinDonation") hookTime(Number(data.amount))
 })
 
 socket.on('subToTimer', () => {
