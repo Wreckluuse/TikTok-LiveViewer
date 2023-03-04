@@ -144,7 +144,8 @@ function plus1h() {
     hours += 1;
 }
 
-function addCustomTime(input = Number(manualInput.value)) {
+function addCustomTime(value) {
+    let input = value || Number(manualInput.value);
     if (Number.isInteger(input)) {
         let amount = input;
         if (amount + minutes >= 60) {
